@@ -1,0 +1,15 @@
+[submodule "workspace/src/isaac_ros_visual_slam"]
+	path = workspace/src/isaac_ros_visual_slam
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git
+[submodule "workspace/src/isaac_ros_common"]
+	path = workspace/src/isaac_ros_common
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
+[submodule "workspace/src/isaac_ros_nitros"]
+	path = workspace/src/isaac_ros_nitros
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nitros.git
+[submodule "workspace/src/isaac_ros_image_pipeline"]
+	path = workspace/src/isaac_ros_image_pipeline
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_pipeline.git
+[submodule "workspace/src/zed-ros2-wrapper"]
+	path = workspace/src/zed-ros2-wrapper
+	url = https://github.com/stereolabs/zed-ros2-wrapper.git
