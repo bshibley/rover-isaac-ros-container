@@ -5,21 +5,35 @@ WORKDIR "/workspace"
 
 RUN sudo chown -R admin /usr/local/zed
 
-# Install prerequisites
-RUN apt-get update && apt-get install -y \
+# Install CUDA & L4T build dependencies
+RUN sudo sh -c "echo 'deb https://repo.download.nvidia.com/jetson/t234 r35.4 main' >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list" && \
+    apt-key adv --fetch-key http://repo.download.nvidia.com/jetson/jetson-ota-public.asc && \
+    mkdir -p /opt/nvidia/l4t-packages/ && \
+    touch /opt/nvidia/l4t-packages/.nv-l4t-disable-boot-fw-update-in-preinstall && \
+    sudo mv /etc/ld.so.conf.d/nvidia-tegra.conf /etc/ld.so.conf.d/nvidia-tegra.conf.bk && \
+    apt-get update && apt-get install  -y --no-install-recommends \
+        cuda-11-4 \
+        cuda-libraries-11-4 \
+        cuda-toolkit-11-4 \
         cuda-nvtx-11-4 \
         libcusolver-11-4 \
-&& rm -rf /var/lib/apt/lists/* \
-&& apt-get clean
+        nvidia-l4t-3d-core \
+        nvidia-l4t-camera \
+        nvidia-l4t-core \
+        nvidia-l4t-cuda \
+        nvidia-l4t-gstreamer \
+        nvidia-l4t-pva && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean
 
 COPY workspace/src src
 
 # Populate and build workspace
 RUN source /opt/ros/humble/setup.bash && \
     colcon build --cmake-args=-DCMAKE_BUILD_TYPE=Release --parallel-workers $(nproc) && \
-    rm -r build logs src
+    rm -r build src
 
-    
+
 FROM ${BASE_IMAGE}
 
 WORKDIR "/workspace"
@@ -27,10 +41,3 @@ WORKDIR "/workspace"
 COPY --from=0 /workspace/install /workspace/install
 
 RUN sudo chown -R admin /usr/local/zed
-
-# Install prerequisites
-RUN apt-get update && apt-get install -y \
-        cuda-nvtx-11-4 \
-        libcusolver-11-4 \
-&& rm -rf /var/lib/apt/lists/* \
-&& apt-get clean
