@@ -30,7 +30,7 @@ jobs:
         touch workspace/src/isaac_ros_common/scripts/.isaac_ros_common-config
     - name: Build the Docker image
       run: |
-        PLATFORM=aarch64 CONFIG_DOCKER_SEARCH_DIRS=../../../../ ./workspace/src/isaac_ros_common/scripts/build_base_image.sh aarch64.ros2_humble.zed.user.rover rover_isaac_ros-aarch64 '' '' ''
+        TERM=linux PLATFORM=aarch64 CONFIG_DOCKER_SEARCH_DIRS=../../../../ ./workspace/src/isaac_ros_common/scripts/build_base_image.sh aarch64.ros2_humble.zed.user.rover rover_isaac_ros-aarch64 '' '' ''
     - name: Tag & push the image
       run: |
         DATESTAMP=$(date +%s)
