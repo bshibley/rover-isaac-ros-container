@@ -20,18 +20,17 @@ jobs:
       uses: docker/setup-qemu-action@v2
       with:
         platforms: 'arm64'
-    - name: Free up space on runner
-      run: |
-        df -h
-        sudo apt-get remove -y '^dotnet-.*'
-        sudo apt-get remove -y '^llvm-.*'
-        sudo apt-get remove -y 'php.*'
-        sudo apt-get remove -y azure-cli google-chrome-stable firefox powershell mono-devel
-        sudo apt-get autoremove -y
-        sudo apt-get clean
-        rm -rf /usr/share/dotnet/
-        rm -rf /opt/hostedtoolcache
-        df -h
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # true => removed from image
+        tool-cache: true
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
@@ -42,7 +41,7 @@ jobs:
         touch workspace/src/isaac_ros_common/scripts/.isaac_ros_common-config
     - name: Build the Docker image
       run: |
-        TERM=linux PLATFORM=aarch64 CONFIG_DOCKER_SEARCH_DIRS=../../../../ ./workspace/src/isaac_ros_common/scripts/build_base_image.sh aarch64.ros2_humble.zed.user.rover rover_isaac_ros-aarch64 '' '' ''
+        TERM=linux PLATFORM=aarch64 CONFIG_DOCKER_SEARCH_DIRS=../../../../ ./workspace/src/isaac_ros_common/scripts/build_base_image.sh aarch64.ros2_humble.zed.user.rover rover_isaac_ros-aarch64 '' '' '0'
     - name: Tag & push the image
       run: |
         DATESTAMP=$(date +%s)
