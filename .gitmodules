@@ -13,3 +13,9 @@
 [submodule "workspace/src/zed-ros2-wrapper"]
 	path = workspace/src/zed-ros2-wrapper
 	url = https://github.com/stereolabs/zed-ros2-wrapper.git
+[submodule "workspace/src/isaac_ros_object_detection"]
+	path = workspace/src/isaac_ros_object_detection
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_object_detection.git
+[submodule "workspace/src/isaac_ros_dnn_inference"]
+	path = workspace/src/isaac_ros_dnn_inference
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_dnn_inference.git
